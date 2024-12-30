@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ productData }}
         <div id="address-element"></div>
         <div id="payment-element"></div>
         <button @click="confirmPayment()">confirm</button>
@@ -10,6 +11,7 @@
 import { useStripe } from '@/composables/useStripe'
 import { ref, onMounted } from 'vue'
 
+const productData = ref<any>(null)
 const stripe = ref()
 const elements = ref()
 const clientSecret = ref()
@@ -20,7 +22,7 @@ onMounted(async () => {
     try {
         const { data } = await useFetch('/api/create-payment-intent', {
             method: 'POST',
-            body: JSON.stringify({ amount: route.params.price, currency: 'EUR' }),
+            body: JSON.stringify({ amount: productData.value.price, currency: 'EUR' }),
         })
 
         clientSecret.value = data.value?.clientSecret
@@ -47,6 +49,17 @@ onMounted(async () => {
         loading.value = false
     }
 })
+
+const { data, error } = await useFetch(`/api/get-product?product_id=${route.params.product}`, {
+    method: 'GET',
+})
+
+if (error.value) {
+    console.error('Error fetching products:', error.value)
+} else {
+    productData.value = data.value
+    loading.value = false
+}
 
 const confirmPayment = async () => {
     stripe.value

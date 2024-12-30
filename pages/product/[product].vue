@@ -1,11 +1,18 @@
 <template>
     <div>
+        <div v-if="loading">Chargement...</div>
         <div v-if="productData">
             <p>Product Name: {{ productData.name }}</p>
             <p>Product Description: {{ productData.description }}</p>
-            <p>Product Price: {{ productData.price }}</p>
+            <p>Product Price: {{ convertToDecimal(productData.price) }}</p>
             <img :src="productData.images[0]" />
-            <NuxtLink :to="`/payment/${productData.price}`"> Payer </NuxtLink>
+            <NuxtLink
+                :to="{
+                    name: 'payment-product',
+                    params: { product_id: productData.product_id },
+                }"
+                >Payer</NuxtLink
+            >
         </div>
     </div>
 </template>
@@ -14,10 +21,11 @@
 import { ref } from 'vue'
 
 const route = useRoute()
+const loading = ref(true)
 
 const productData = ref<any>(null)
 
-const { data, error } = await useFetch(`/api/get-product?product_id=${route.params.id}`, {
+const { data, error } = await useFetch(`/api/get-product?product_id=${route.params.product}`, {
     method: 'GET',
 })
 
@@ -25,5 +33,6 @@ if (error.value) {
     console.error('Error fetching products:', error.value)
 } else {
     productData.value = data.value
+    loading.value = false
 }
 </script>
