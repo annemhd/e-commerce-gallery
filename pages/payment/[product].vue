@@ -1,9 +1,25 @@
 <template>
     <div>
-        {{ productData }}
-        <div id="address-element"></div>
-        <div id="payment-element"></div>
-        <button @click="confirmPayment()">confirm</button>
+        <el-row :gutter="12">
+            <el-col :span="16">
+                <h1>recap</h1>
+                <el-image
+                    style="width: 250px; height: 250px"
+                    :src="productData?.images[0]"
+                    fit="cover"
+                />
+                <div v-if="productData">
+                    <p>{{ productData?.name }}</p>
+                    <p>{{ convertToDecimal(productData?.price) }} €</p>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <div id="address-element"></div>
+                <div id="payment-element"></div>
+
+                <el-button @click="confirmPayment()">confirm</el-button>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -40,6 +56,7 @@ onMounted(async () => {
                 mode: 'shipping',
                 allowedCountries: ['FR'],
             })
+
             paymentElement.mount('#payment-element')
             addressElement.mount('#address-element')
         }
