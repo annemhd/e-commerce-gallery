@@ -1,7 +1,6 @@
 <template>
     <el-row :gutter="48" class="h-full">
         <el-col :span="12">
-            <h1 class="text-6xl mb-10">Contact</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium interdum
                 sodales. Cras eget arcu fermentum, tincidunt ex nec, commodo justo. Etiam ultricies
@@ -9,7 +8,7 @@
                 nostra, per inceptos himenaeos.
             </p>
         </el-col>
-        <el-col :span="12" class="flex content-center">
+        <el-col :span="12" class="flex">
             <el-form
                 ref="ruleFormRef"
                 :model="ruleForm"
@@ -17,15 +16,16 @@
                 :rules="rules"
                 :label-position="labelPosition"
                 :size="size"
+                class="w-full"
             >
                 <el-form-item label="Email">
-                    <el-input v-model="ruleForm.email" />
+                    <el-input v-model="ruleForm.email" size="large" />
                 </el-form-item>
                 <el-form-item label="N° de commande">
-                    <el-input v-model="ruleForm.order" />
+                    <el-input v-model="ruleForm.order" size="large" />
                 </el-form-item>
                 <el-form-item label="Raison">
-                    <el-input v-model="ruleForm.subject" />
+                    <el-input v-model="ruleForm.subject" size="large" />
                 </el-form-item>
                 <el-form-item label="Mesage">
                     <el-input
@@ -36,7 +36,9 @@
                     />
                 </el-form-item>
                 <div class="flex justify-end">
-                    <el-button type="primary" @click="onSubmit">Envoyer le message</el-button>
+                    <el-button type="primary" size="large" class="button" @click="onSubmit"
+                        >Envoyer le message</el-button
+                    >
                 </div>
             </el-form></el-col
         >
@@ -82,5 +84,19 @@ function onSubmit() {
 <style>
 .el-radio-group {
     margin-right: 12px;
+}
+
+.button {
+    border-radius: 12px !important;
+}
+.el-input {
+    --el-input-border-color: transparent;
+    --el-input-border-radius: 12px;
+    --el-input-bg-color: #f1f1f1;
+}
+.el-textarea__inner {
+    background-color: #f1f1f1;
+    box-shadow: none;
+    --el-input-border-radius: 12px;
 }
 </style>

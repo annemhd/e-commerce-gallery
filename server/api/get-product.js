@@ -18,6 +18,8 @@ export default defineEventHandler(async (event) => {
             price: priceList.unit_amount,
             images: productDetails.images,
             created_at: productDetails.created,
+            metadata: productDetails.metadata,
+            active: productDetails.active,
         }
 
         return item

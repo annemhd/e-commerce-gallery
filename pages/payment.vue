@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <h1 class="text-6xl mb-6">Passer le commande</h1>
-        <el-row :gutter="48" class="relative h-full">
-            <el-col :span="14"
-                ><h1 class="text-3xl mb-6">Informations de paiement</h1>
+    <el-row :gutter="48" class="relative">
+        <el-col :span="14"
+            ><h1 class="text-3xl mb-6">Informations de paiement</h1>
 
-                <div class="flex flex-col gap-4 p-6 rounded-md">
-                    <!-- element info client -->
-                    <div id="address-element" class="w-full"></div>
-                    <div id="payment-element" class="w-full"></div>
-                </div>
-            </el-col>
-            <!-- <el-col :span="8">
+            <div class="flex flex-col gap-4 p-6 rounded-md">
+                <!-- element info client -->
+                <div id="address-element" class="w-full"></div>
+                <div id="payment-element" class="w-full"></div>
+            </div>
+        </el-col>
+        <!-- <el-col :span="8">
                 <div class="flex flex-col">
                    <h1>Condition de vhbehge</h1>
                     <p>
@@ -28,50 +26,44 @@
                 </div>
             </el-col> -->
 
-            <el-col :span="10" class="flex fixed right-0 w-full">
-                <div class="flex flex-col w-full">
-                    <h1 class="text-3xl mb-6">Recapitulatif</h1>
-                    <div class="flex justify-center w-full">
-                        <el-image
-                            style="width: 250px; height: 250px"
-                            :src="productData?.images[0]"
-                            fit="cover"
-                            class="rounded-xl"
-                        />
-                    </div>
-
-                    <div v-if="productData" class="flex flex-col gap-2 mb-6">
-                        <p>{{ productData?.name }}</p>
-                        <div class="flex justify-between">
-                            <span>Article</span>
-                            <span>{{ convertToDecimal(productData?.price) }} €</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Livraison</span>
-                            <span>{{ 10 }} €</span>
-                        </div>
-
-                        <div class="flex justify-between font-bold">
-                            <span>Total</span>
-                            <span
-                                >{{
-                                    (parseFloat(convertToDecimal(productData?.price)) || 0) + 10
-                                }}
-                                €</span
-                            >
-                        </div>
-                    </div>
-                    <!-- <el-table class="mb-3" :data="tableData" style="width: 100%">
-                        <el-table-column prop="item" label="" />
-                        <el-table-column prop="price" label="Prix" />
-                    </el-table> -->
-                    <el-button type="primary" @click="confirmPayment()"
-                        >Confirmer la commande</el-button
-                    >
+        <el-col :span="10" class="flex fixed right-0 w-full">
+            <div class="flex flex-col w-full pr-16">
+                <h1 class="text-3xl mb-6">Recapitulatif</h1>
+                <h2 class="text-xl mb-2">{{ productData?.name }}</h2>
+                <div class="flex justify-center rounded-xl mb-6 bg-stripe">
+                    <el-image
+                        style="width: 250px; height: 250px"
+                        :src="productData?.images[0]"
+                        fit="cover"
+                    />
                 </div>
-            </el-col>
-        </el-row>
-    </div>
+
+                <div v-if="productData" class="flex flex-col gap-2 mb-6">
+                    <div class="flex justify-between">
+                        <span>Article</span>
+                        <span>{{ convertToDecimal(productData?.price) }} €</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Livraison</span>
+                        <span>{{ 10 }} €</span>
+                    </div>
+
+                    <div class="flex justify-between font-bold">
+                        <span>Total</span>
+                        <span
+                            >{{
+                                (parseFloat(convertToDecimal(productData?.price)) || 0) + 10
+                            }}
+                            €</span
+                        >
+                    </div>
+                </div>
+                <el-button type="primary" size="large" class="button" @click="confirmPayment()"
+                    >Confirmer la commande</el-button
+                >
+            </div>
+        </el-col>
+    </el-row>
 </template>
 
 <script setup lang="ts">
@@ -143,3 +135,13 @@ watch(productData, (newX) => {
     console.log(`x is ${newX}`)
 })
 </script>
+
+<style lang="scss" scoped>
+.button {
+    border-radius: 12px !important;
+}
+
+.bg-stripe {
+    background-color: #f1f1f1;
+}
+</style>

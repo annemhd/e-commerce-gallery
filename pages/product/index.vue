@@ -1,7 +1,7 @@
 <template>
     <div v-if="loading">Chargement...</div>
     <div v-if="productsList">
-        <div class="flex gap-1 p-2 justify-center">
+        <div class="flex gap-1 p-2 mb-6 justify-center">
             <el-button text :bg="filter === 'all'" @click="handleFilter('all')">Tout</el-button>
             <el-button text :bg="filter === 'abstract'" @click="handleFilter('abstract')"
                 >Abstrait</el-button
@@ -12,7 +12,7 @@
         </div>
 
         <el-row :gutter="8">
-            <el-col v-for="(product, index) in filteredProducts" :key="index" :span="4">
+            <el-col v-for="(product, index) in filteredProducts" :key="index" :span="6">
                 <NuxtLink
                     :to="{ name: 'product-product', params: { product: product.product_id } }"
                 >
