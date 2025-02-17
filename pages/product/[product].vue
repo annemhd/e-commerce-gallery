@@ -77,7 +77,7 @@ const status = computed(() => {
 })
 
 const handleStatusStyle = computed(() => {
-    return productData.value.active ? 'primary' : 'warning'
+    return productData.value.active ? 'success' : 'warning'
 })
 
 const test = computed(() => {

@@ -121,19 +121,45 @@ watchEffect(() => {
 })
 
 const confirmPayment = async () => {
-    const { error } = await stripe.value.confirmPayment({
-        elements: elements.value,
-        confirmParams: { return_url: 'http://localhost:3000/confirm-payment' },
-    })
+    try {
+        const { error } = await stripe.value.confirmPayment({
+            elements: elements.value,
+            redirect: 'if_required',
+        })
 
-    if (error) {
-        console.error('Erreur lors du paiement:', error)
+        if (error) {
+            console.error('Payment failed:', error)
+            return
+        }
+
+        await updateProductStatus()
+        console.log('Payment successful! Product status updated.')
+
+        setTimeout(async () => {
+            await navigateTo({ path: '/confirm-payment' })
+        }, 200)
+    } catch (error) {
+        console.error('Payment error:', error)
     }
 }
 
-watch(productData, (newX) => {
-    console.log(`x is ${newX}`)
-})
+const updateProductStatus = async () => {
+    try {
+        const response = await useFetch('/api/update-product', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: productData.value.product_id, active: false }),
+        })
+
+        if (response.error.value) {
+            throw new Error(response.error.value.message)
+        }
+
+        console.log('Success:', response.data.value)
+    } catch (error) {
+        console.error('Failed to update product status:', error)
+    }
+}
 </script>
 
 <style lang="scss" scoped>
